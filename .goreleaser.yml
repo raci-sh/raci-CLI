@@ -1,0 +1,51 @@
+version: 2
+
+project_name: raci
+
+builds:
+  - id: raci
+    main: ./src
+    binary: raci
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.Version={{.Version}}
+      - -X main.GitCommit={{.ShortCommit}}
+      - -X main.BuildTime={{.Date}}
+      - -X main.GitBranch={{.Branch}}
+
+archives:
+  - formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    # Listing `files` replaces goreleaser's defaults, so the ones worth keeping
+    # are repeated. NOTICE is not a default, and Apache 2.0 section 4(d)
+    # requires redistributions to carry it.
+    files:
+      - LICENSE
+      - NOTICE
+      - README.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+
+# Homebrew cask and macOS notarisation come later (raci-sh has no tap repo
+# and no signing secrets yet); see the beads in this repo.
