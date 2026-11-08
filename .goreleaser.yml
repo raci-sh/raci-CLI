@@ -47,5 +47,23 @@ changelog:
       - "^test:"
       - "^ci:"
 
-# Homebrew cask and macOS notarisation come later (raci-sh has no tap repo
-# and no signing secrets yet); see the beads in this repo.
+# Writes Casks/raci.rb to raci-sh/homebrew-tap (brew install --cask
+# raci-sh/tap/raci). GoReleaser commits straight to the tap's main branch, so
+# HOMEBREW_TAP_TOKEN must be a token that may push there (contents: write on
+# raci-sh/homebrew-tap, and allowed past the org's PR and signed-commit
+# rulesets, as for SteerSpec/homebrew-tap). Without the secret the cask is
+# skipped rather than failing the release.
+homebrew_casks:
+  - name: raci
+    repository:
+      owner: raci-sh
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    # Skip unless the token is non-empty: Actions passes an empty string for a
+    # missing secret. envOrDefault also covers a local run where the variable
+    # is not set at all (.Env.HOMEBREW_TAP_TOKEN would error there).
+    skip_upload: '{{ if eq (envOrDefault "HOMEBREW_TAP_TOKEN" "") "" }}true{{ else }}false{{ end }}'
+    homepage: https://github.com/raci-sh/raci-CLI
+    description: "RACI for agents: who is Responsible, Accountable, Consulted and Informed, per realm"
+
+# macOS notarisation comes later (no signing secrets yet); see the beads.

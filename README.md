@@ -10,6 +10,14 @@ RACI.sh is a companion to [SteerSpec](https://github.com/SteerSpec), and its rea
 
 ## Install
 
+With [Homebrew](https://brew.sh) (macOS):
+
+```sh
+brew tap raci-sh/tap
+brew trust --cask raci-sh/tap/raci
+brew install --cask raci
+```
+
 From a release: download the archive for your platform from [Releases](https://github.com/raci-sh/raci-CLI/releases).
 
 From source:
