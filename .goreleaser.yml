@@ -59,6 +59,9 @@ homebrew_casks:
       owner: raci-sh
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    # isEnvSet is false for an empty value too, which is what Actions passes
+    # for a missing secret (checked with goreleaser 2: empty -> skip, "x" ->
+    # upload). Do not use .Env.HOMEBREW_TAP_TOKEN here: it errors when unset.
     skip_upload: '{{ if isEnvSet "HOMEBREW_TAP_TOKEN" }}false{{ else }}true{{ end }}'
     homepage: https://github.com/raci-sh/raci-CLI
     description: "RACI for agents: who is Responsible, Accountable, Consulted and Informed, per realm"
