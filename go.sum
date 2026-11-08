@@ -25,8 +25,8 @@ github.com/mattn/go-runewidth v0.0.16 h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6T
 github.com/mattn/go-runewidth v0.0.16/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
 github.com/muesli/termenv v0.16.0 h1:S5AlUN9dENB57rsbnkPyfdGuWIlkmzJjbFf0Tf5FWUc=
 github.com/muesli/termenv v0.16.0/go.mod h1:ZRfOIKPFDYQoDFF4Olj7/QJbW60Ol/kL1pU3VfY/Cnk=
-github.com/raci-sh/raci-manager v0.0.0-20261108081122-dfb58b9d41d3 h1:C9DSDgfIXPnDytrTDCWZ3t0rSFeygEAjDwVwOoBjWjU=
-github.com/raci-sh/raci-manager v0.0.0-20261108081122-dfb58b9d41d3/go.mod h1:td18j4Ebl6DltdUocneT2BPKVSW6a9ylEjkkHg76m6M=
+github.com/raci-sh/raci-manager v1.0.0 h1:mBUsDD1x3IuETXAdnbFxWXZyTFoTX0p/YuMkxQVKQ8A=
+github.com/raci-sh/raci-manager v1.0.0/go.mod h1:td18j4Ebl6DltdUocneT2BPKVSW6a9ylEjkkHg76m6M=
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
 github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
