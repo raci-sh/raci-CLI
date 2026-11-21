@@ -52,7 +52,9 @@ changelog:
 # only some of them are set. Runs on the Linux runner (goreleaser uses quill).
 notarize:
   macos:
-    - enabled: '{{ and (isEnvSet "MACOS_SIGN_P12") (isEnvSet "MACOS_SIGN_PASSWORD") (isEnvSet "MACOS_NOTARY_KEY") (isEnvSet "MACOS_NOTARY_KEY_ID") (isEnvSet "MACOS_NOTARY_ISSUER_ID") }}'
+    # Non-empty checks, as for the cask: Actions passes an empty string for a
+    # missing secret, and envOrDefault also covers a variable that is unset.
+    - enabled: '{{ and (ne (envOrDefault "MACOS_SIGN_P12" "") "") (ne (envOrDefault "MACOS_SIGN_PASSWORD" "") "") (ne (envOrDefault "MACOS_NOTARY_KEY" "") "") (ne (envOrDefault "MACOS_NOTARY_KEY_ID" "") "") (ne (envOrDefault "MACOS_NOTARY_ISSUER_ID" "") "") }}'
       ids:
         - raci
       sign:
