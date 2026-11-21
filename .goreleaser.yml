@@ -83,5 +83,5 @@ homebrew_casks:
     # missing secret. envOrDefault also covers a local run where the variable
     # is not set at all (.Env.HOMEBREW_TAP_TOKEN would error there).
     skip_upload: '{{ if eq (envOrDefault "HOMEBREW_TAP_TOKEN" "") "" }}true{{ else }}false{{ end }}'
-    homepage: https://github.com/raci-sh/raci-CLI
+    homepage: https://raci.sh
     description: "RACI for agents: who is Responsible, Accountable, Consulted and Informed, per realm"
