@@ -85,5 +85,3 @@ homebrew_casks:
     skip_upload: '{{ if eq (envOrDefault "HOMEBREW_TAP_TOKEN" "") "" }}true{{ else }}false{{ end }}'
     homepage: https://github.com/raci-sh/raci-CLI
     description: "RACI for agents: who is Responsible, Accountable, Consulted and Informed, per realm"
-
-# macOS notarisation comes later (no signing secrets yet); see the beads.
