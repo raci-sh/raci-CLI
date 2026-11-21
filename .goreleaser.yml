@@ -47,6 +47,24 @@ changelog:
       - "^test:"
       - "^ci:"
 
+# Sign and notarize the macOS binaries (Developer ID, App Store Connect API
+# key). Off until all five MACOS_* secrets exist; release.yml fails the job if
+# only some of them are set. Runs on the Linux runner (goreleaser uses quill).
+notarize:
+  macos:
+    - enabled: '{{ and (isEnvSet "MACOS_SIGN_P12") (isEnvSet "MACOS_SIGN_PASSWORD") (isEnvSet "MACOS_NOTARY_KEY") (isEnvSet "MACOS_NOTARY_KEY_ID") (isEnvSet "MACOS_NOTARY_ISSUER_ID") }}'
+      ids:
+        - raci
+      sign:
+        certificate: "{{ .Env.MACOS_SIGN_P12 }}"
+        password: "{{ .Env.MACOS_SIGN_PASSWORD }}"
+      notarize:
+        issuer_id: "{{ .Env.MACOS_NOTARY_ISSUER_ID }}"
+        key_id: "{{ .Env.MACOS_NOTARY_KEY_ID }}"
+        key: "{{ .Env.MACOS_NOTARY_KEY }}"
+        wait: true
+        timeout: 20m
+
 # Writes Casks/raci.rb to raci-sh/homebrew-tap (brew install --cask
 # raci-sh/tap/raci). GoReleaser commits straight to the tap's main branch, so
 # HOMEBREW_TAP_TOKEN must be a token that may push there (contents: write on
