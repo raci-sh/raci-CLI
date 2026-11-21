@@ -80,7 +80,7 @@ raci verify --dir . --realm com.example
 
 | Command | What it does |
 | ------- | ------------ |
-| `raci version` | Show version, commit, build time and branch. |
+| `raci version` | Show version, build time, commit, branch, licence and website. |
 | `raci init --realm <id>` | Start a realm's RACI log in this repository. *Not implemented yet.* |
 | `raci verify [--dir <dir>] [--realm <id>]` | Recompute the log's hash chain and print a JSON report ([SPEC.md](https://github.com/raci-sh/raci-spec/blob/main/SPEC.md) section 7.1). |
 | `raci completion <shell>` | Generate a shell completion script. |
