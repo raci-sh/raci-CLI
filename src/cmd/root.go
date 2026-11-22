@@ -23,6 +23,14 @@ type VersionInfo struct {
 	GitBranch string
 }
 
+// Licence and project pointers shown by --version, `raci version` and the
+// root help. They must match LICENSE and NOTICE, and the URL must resolve.
+const (
+	licenseName = "Apache 2.0"
+	licenseLine = "Apache License 2.0 · Copyright 2026 Consulare and contributors"
+	websiteURL  = "https://raci.sh"
+)
+
 var versionInfo = VersionInfo{Version: "dev", BuildTime: "unknown", GitCommit: "unknown", GitBranch: "unknown"}
 
 // SetVersionInfo records the build information injected into main.
@@ -40,7 +48,8 @@ func NewRootCmd() *cobra.Command {
 		Long:          "RACI.sh CLI — who is Responsible, Accountable, Consulted and Informed, per realm. Works offline from your repository.",
 		Version:       versionInfo.Version,
 	}
-	cmd.SetVersionTemplate("raci {{.Version}}\n")
+	// The first line stays `raci <version>` so scripts that parse it keep working.
+	cmd.SetVersionTemplate("raci {{.Version}}\n" + licenseLine + "\n" + websiteURL + "\n")
 	cmd.AddCommand(newVersionCmd())
 	cmd.AddCommand(newInitCmd())
 	cmd.AddCommand(newVerifyCmd())
@@ -103,6 +112,12 @@ func customHelp(cmd *cobra.Command, _ []string) {
 	}
 
 	writeln(w, descStyle.Render(fmt.Sprintf("  Use \"%s [command] --help\" for more information about a command.", cmd.CommandPath())))
+
+	// Only the root help carries the licence pointer; subcommand help stays focused.
+	if !cmd.HasParent() {
+		writeln(w)
+		writeln(w, descStyle.Render(fmt.Sprintf("  Licensed under %s · %s", licenseName, websiteURL)))
+	}
 }
 
 func writeln(w io.Writer, a ...any) {

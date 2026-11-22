@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/raci-sh/raci-CLI/src/internal/testutil"
@@ -82,4 +83,46 @@ func TestExitHelpers(t *testing.T) {
 	if got := printableDiagnostic("a\x1b[31mb\n"); got != "a[31mb\n" {
 		t.Errorf("printableDiagnostic = %q", got)
 	}
+}
+
+func TestVersionShowsLicenseAndSite(t *testing.T) {
+	out, err := testutil.ExecuteCommand(NewRootCmd(), "version")
+	if err != nil {
+		t.Fatal(err)
+	}
+	testutil.AssertContains(t, out, "Apache 2.0")
+	testutil.AssertContains(t, out, "https://raci.sh")
+}
+
+func TestVersionFlagShowsLicenseAndSite(t *testing.T) {
+	SetVersionInfo(VersionInfo{Version: "9.9.9", GitCommit: "unknown", BuildTime: "unknown", GitBranch: "unknown"})
+	out, err := testutil.ExecuteCommand(NewRootCmd(), "--version")
+	if err != nil {
+		t.Fatal(err)
+	}
+	// The first line stays `raci <version>` for scripts that parse it.
+	if !strings.HasPrefix(out, "raci 9.9.9\n") {
+		t.Errorf("first line: got %q", out)
+	}
+	testutil.AssertContains(t, out, "Apache License 2.0 · Copyright 2026 Consulare and contributors")
+	testutil.AssertContains(t, out, "https://raci.sh")
+}
+
+func TestRootHelpHasLicenseFooter(t *testing.T) {
+	for _, args := range [][]string{{"--help"}, {}} {
+		out, err := testutil.ExecuteCommand(NewRootCmd(), args...)
+		if err != nil {
+			t.Fatal(err)
+		}
+		testutil.AssertContains(t, out, "Available Commands:")
+		testutil.AssertContains(t, out, "Licensed under Apache 2.0 · https://raci.sh")
+	}
+}
+
+func TestSubcommandHelpHasNoLicenseFooter(t *testing.T) {
+	out, err := testutil.ExecuteCommand(NewRootCmd(), "version", "--help")
+	if err != nil {
+		t.Fatal(err)
+	}
+	testutil.AssertNotContains(t, out, "Licensed under")
 }
